@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/public")
@@ -45,6 +47,28 @@ public class PublicController {
 
     @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    @Value("${app.base-url:${APP_BASE_URL:}}")
+    private String configuredBaseUrl;
+
+    private String resolveBaseUrl(HttpServletRequest req) {
+        if (configuredBaseUrl != null && !configuredBaseUrl.trim().isEmpty()) {
+            return configuredBaseUrl.trim().replaceAll("/+$", "");
+        }
+        String proto = req.getHeader("X-Forwarded-Proto");
+        if (proto == null || proto.trim().isEmpty()) {
+            proto = req.getScheme();
+        }
+        String host = req.getHeader("X-Forwarded-Host");
+        if (host == null || host.trim().isEmpty()) {
+            host = req.getHeader("Host");
+        }
+        if (host == null || host.trim().isEmpty()) {
+            int port = req.getServerPort();
+            host = req.getServerName() + (port == 80 || port == 443 ? "" : ":" + port);
+        }
+        return proto + "://" + host;
+    }
 
     @GetMapping("/health-check")
     public String healthCheck() {
@@ -82,7 +106,7 @@ public class PublicController {
     // Handles requesting a password reset email via Brevo API
     // =========================================================================
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody java.util.Map<String, String> request) {
+    public ResponseEntity<?> forgotPassword(@RequestBody java.util.Map<String, String> request, HttpServletRequest httpRequest) {
         String identifier = request.get("identifier");
         if (identifier == null || identifier.trim().isEmpty()) {
             return new ResponseEntity<>("Username or email is required", HttpStatus.BAD_REQUEST);
@@ -100,7 +124,8 @@ public class PublicController {
             user.setResetTokenExpiry(java.time.LocalDateTime.now().plusMinutes(15));
             userRepo.save(user);
 
-            String resetLink = "http://localhost:8081/journal/#/reset-password?token=" + token;
+            String baseUrl = resolveBaseUrl(httpRequest);
+            String resetLink = baseUrl + "/#/reset-password?token=" + token;
             brevoEmailService.sendPasswordResetEmail(user.getEmail(), user.getUserName(), resetLink);
         }
 
