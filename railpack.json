@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.railpack.com/",
+  "steps": {
+    "build": {
+      "commands": [
+        "chmod +x mvnw",
+        "./mvnw -B -DskipTests clean package --no-transfer-progress"
+      ]
+    }
+  },
+  "deploy": {
+    "startCommand": "java -Dserver.port=$PORT $JAVA_OPTS -jar target/journalApp-*.jar"
+  }
+}

@@ -1,0 +1,211 @@
+/* ── Layout ───────────────────────────────────────────────── */
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-app);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Side Navigation ──────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8) 0;
+  z-index: 100;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.nav--hidden {
+  display: none;
+}
+
+.nav__brand {
+  padding: 0 var(--space-6);
+  margin-bottom: var(--space-10);
+}
+
+.nav__brand-name {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.nav__brand-name span {
+  color: var(--text-accent);
+}
+
+.nav__brand-tagline {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: var(--space-1);
+}
+
+.nav__links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: 0 var(--space-3);
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+}
+
+.nav__link:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav__link--active {
+  background: var(--bg-elevated);
+  color: var(--text-accent);
+}
+
+.nav__link-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.nav__link--active .nav__link-icon {
+  opacity: 1;
+}
+
+.nav__divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-4) var(--space-4);
+}
+
+.nav__footer {
+  padding: var(--space-4) var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ── Main Content Area ────────────────────────────────────── */
+.main {
+  flex: 1;
+  margin-left: var(--nav-width);
+  padding: var(--space-10) var(--space-8);
+  min-height: 100vh;
+}
+
+.main--full {
+  margin-left: 0;
+}
+
+.page-container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.page-container--wide {
+  max-width: var(--content-wide);
+}
+
+/* ── Auth layout (centered) ───────────────────────────────── */
+.auth-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-8);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card__header {
+  margin-bottom: var(--space-8);
+}
+
+.auth-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.auth-card__subtitle {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.auth-card__footer {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.auth-card__footer a {
+  color: var(--text-accent);
+  font-weight: 600;
+  transition: color var(--duration-fast);
+}
+
+.auth-card__footer a:hover {
+  color: var(--accent-hover);
+}
+
+/* ── Mobile nav toggle ────────────────────────────────────── */
+.nav-toggle {
+  display: none;
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+}
+
+.nav-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 90;
+}
