@@ -79,13 +79,22 @@ public class PublicController {
     public ResponseEntity<?> signUp(@RequestBody UserDTO user){
 
         String email = user.getEmail();
-        if (email != null && !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
+        if (email != null && !email.trim().isEmpty()) {
+            // Must match: something@domain.tld (at minimum two labels separated by a dot)
+            boolean validEmail = email.trim().matches(
+                "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+" +
+                "@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?" +
+                "(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" +
+                "\\.[a-zA-Z]{2,}$"
+            );
+            if (!validEmail) {
+                return new ResponseEntity<>("Invalid email format. Use a valid address like you@example.com", HttpStatus.BAD_REQUEST);
+            }
         }
 
         User newUser = new User();
         newUser.setUserName(user.getUserName());
-        newUser.setEmail(user.getEmail());
+        newUser.setEmail(user.getEmail() != null ? user.getEmail().trim() : null);
         newUser.setPassword(user.getPassword());
         newUser.setSentimentAnalysis(user.getSentimentAnalysis() != null && (user.getSentimentAnalysis().equalsIgnoreCase("true") || user.getSentimentAnalysis().equals("1")));
         userService.saveNewUser(newUser);

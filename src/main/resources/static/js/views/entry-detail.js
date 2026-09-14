@@ -113,9 +113,17 @@ function renderDetail(entry) {
   const container = document.getElementById('detail-content');
   container.style.display = '';
 
+  // Support both 'content' (after fix) and 'Content' (legacy field name)
+  const bodyText = entry.content || entry.Content || '';
+
   // Format content preserving line breaks
-  const formattedContent = escHtml(entry.content || '')
+  const formattedContent = escHtml(bodyText)
     .replace(/\n/g, '<br>');
+
+  // The id will be a plain hex string after the JacksonConfig fix
+  const entryId = (typeof entry.id === 'string' && entry.id)
+    ? entry.id
+    : (typeof entry._id === 'string' && entry._id ? entry._id : '');
 
   container.innerHTML = `
     <div class="entry-detail__date">${formatDate(entry.date)}</div>
@@ -138,7 +146,7 @@ function renderDetail(entry) {
   `;
 
   document.getElementById('edit-btn').addEventListener('click', () => {
-    navigate('editor', { id: entry.id || entry._id || entry.Id || (entry.id && typeof entry.id === 'object' ? entry.id.timestamp : '') });
+    navigate('editor', { id: entryId });
   });
 
   document.getElementById('detail-delete-btn').addEventListener('click', async () => {
@@ -151,7 +159,7 @@ function renderDetail(entry) {
     if (!confirmed) return;
 
     try {
-      const res = await deleteEntry(entry.id);
+      const res = await deleteEntry(entryId);
       if (res.ok || res.status === 204) {
         showToast('Entry deleted.', 'success');
         navigate('dashboard');
@@ -165,3 +173,4 @@ function renderDetail(entry) {
     }
   });
 }
+

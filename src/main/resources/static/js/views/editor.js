@@ -112,7 +112,8 @@ async function loadEntry(id) {
     const res = await getEntry(id);
     if (res.ok && res.data) {
       document.getElementById('editor-title').value = res.data.title || '';
-      document.getElementById('editor-content').value = res.data.content || '';
+      // Handle both 'content' (fixed) and 'Content' (legacy) field names
+      document.getElementById('editor-content').value = res.data.content || res.data.Content || '';
     } else {
       showAlert(document.getElementById('editor-alert'), 'Could not load this entry.');
     }

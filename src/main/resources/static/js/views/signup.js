@@ -118,8 +118,10 @@ async function handleSignup() {
     return;
   }
 
-  if (email && !/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)) {
-    showAlert(alertEl, 'Please enter a valid email address.');
+  // Strict email validation — must have format: local@domain.tld
+  const EMAIL_RE = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+  if (email && !EMAIL_RE.test(email)) {
+    showAlert(alertEl, 'Please enter a valid email address (e.g. you@example.com).');
     return;
   }
 
@@ -143,7 +145,10 @@ async function handleSignup() {
       showToast('Account created! Log in to begin writing.', 'success');
       navigate('login');
     } else {
-      const msg = res.text || res.data?.message || 'Something went wrong. Try a different username.';
+      // res.text carries backend plain-text error; res.data?.message for JSON errors
+      const msg = (res.text && res.text.trim())
+        || res.data?.message
+        || 'Something went wrong. Try a different username.';
       showAlert(alertEl, msg);
     }
   } catch (err) {

@@ -30,15 +30,34 @@ function sentimentTag(sentiment) {
   return `<span class="sentiment-tag sentiment-tag--${s.cls}">${s.label}</span>`;
 }
 
+// Safely extract a hex-string ObjectId from whatever the backend returns.
+// After the JacksonConfig fix, entry.id will be a plain string, but this
+// handles any legacy object shapes gracefully.
+function extractId(entry) {
+  const raw = entry.id ?? entry._id ?? entry.Id ?? '';
+  if (typeof raw === 'string') return raw;
+  if (typeof raw === 'object' && raw !== null) {
+    // Legacy: Jackson serialized ObjectId as { timestamp, date, ... }
+    // toHexString is not available in JS; fall back to stringifying the parts
+    // The ObjectId hex = 4-byte timestamp + 5-byte random + 3-byte counter
+    // None of these sub-fields give the full 24-char hex, so return empty
+    // (forces the user to see "not found" rather than a corrupt id).
+    return '';
+  }
+  return String(raw);
+}
+
 function entryCard(entry, index) {
-  const preview = entry.content
-    ? entry.content.replace(/\s+/g, ' ').slice(0, 180) + (entry.content.length > 180 ? '…' : '')
+  const preview = (entry.content || entry.Content)
+    ? (entry.content || entry.Content).replace(/\s+/g, ' ').slice(0, 180) + ((entry.content || entry.Content).length > 180 ? '…' : '')
     : 'No content.';
+
+  const entryId = extractId(entry);
 
   return `
     <article
       class="entry-card"
-      data-id="${entry.id || entry._id || entry.Id || (entry.id && typeof entry.id === 'object' ? entry.id.timestamp : '')}"
+      data-id="${entryId}"
       tabindex="0"
       role="button"
       aria-label="Open entry: ${entry.title}"
@@ -53,6 +72,7 @@ function entryCard(entry, index) {
     </article>
   `;
 }
+
 
 function skeletonCards() {
   return Array.from({ length: 3 }, () => `
