@@ -526,9 +526,23 @@ textarea.input {
 /* ── Table (Admin) ────────────────────────────────────────── */
 .data-table {
   width: 100%;
+  table-layout: fixed;     /* columns use percentage widths, never overflow */
   border-collapse: collapse;
   font-size: var(--text-sm);
 }
+
+/* Column widths: Username 22%, Email 38%, Roles 25%, Action 15% */
+.data-table th:nth-child(1),
+.data-table td:nth-child(1) { width: 22%; }
+
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) { width: 38%; }
+
+.data-table th:nth-child(3),
+.data-table td:nth-child(3) { width: 25%; }
+
+.data-table th:nth-child(4),
+.data-table td:nth-child(4) { width: 15%; }
 
 .data-table th {
   text-align: left;

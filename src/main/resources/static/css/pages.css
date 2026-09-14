@@ -247,8 +247,9 @@
 
 /* ── User table scroll wrapper ────────────────────────────── */
 .table-wrap {
-  overflow-x: auto;
+  overflow-x: visible;
   margin-top: var(--space-4);
+  width: 100%;
 }
 
 /* ── Page transitions ─────────────────────────────────────── */

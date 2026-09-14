@@ -129,10 +129,10 @@ function renderUsersTable(users) {
   } else {
     tbody.innerHTML = users.map(u => `
       <tr>
-        <td><strong>${escHtml(u.userName || '—')}</strong></td>
-        <td>${escHtml(u.email || '—')}</td>
-        <td>${(u.roles || []).map(r => `<span class="sentiment-tag" style="background:rgba(245,158,11,0.1);color:var(--amber-300)">${escHtml(r)}</span>`).join(' ')}</td>
-        <td style="text-align:right">
+        <td data-label="Username"><strong>${escHtml(u.userName || '—')}</strong></td>
+        <td data-label="Email">${escHtml(u.email || '—')}</td>
+        <td data-label="Roles">${(u.roles || []).map(r => `<span class="sentiment-tag" style="background:rgba(245,158,11,0.1);color:var(--amber-300)">${escHtml(r)}</span>`).join(' ')}</td>
+        <td data-label="Action" style="text-align:right">
           <button class="btn btn--danger btn--sm delete-user-btn" data-username="${escHtml(u.userName)}" title="Delete user">
             Delete
           </button>
