@@ -62,7 +62,7 @@ export function renderResetPassword() {
           </div>
 
           <div class="form-group">
-            <label class="label" for="reset-confirm-password">Confirm New Password</label>
+            <label class="label" for="reset-confirm-password">Confirm Password</label>
             <input
               class="input"
               type="password"

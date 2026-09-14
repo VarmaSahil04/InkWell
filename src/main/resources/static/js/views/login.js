@@ -31,6 +31,7 @@ export function renderLogin() {
               name="userName"
               autocomplete="username"
               placeholder="your.name"
+              maxlength="16"
               required
             >
           </div>

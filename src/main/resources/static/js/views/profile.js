@@ -44,7 +44,7 @@ export function renderProfile() {
               type="password"
               id="new-password"
               autocomplete="new-password"
-              placeholder="New password"
+              placeholder="••••••••"
             >
           </div>
 
@@ -55,7 +55,7 @@ export function renderProfile() {
               type="password"
               id="confirm-password"
               autocomplete="new-password"
-              placeholder="Same again"
+              placeholder="••••••••"
             >
           </div>
 
@@ -106,14 +106,21 @@ async function handleUpdate(currentUsername) {
     return;
   }
 
+  if (newUsername && newUsername.length > 16) {
+    showAlert(alertEl, 'Username cannot exceed 16 characters.');
+    return;
+  }
+
   if (newPassword && newPassword !== confirmPassword) {
     showAlert(alertEl, 'Passwords don\'t match.');
     return;
   }
 
-  if (newPassword && newPassword.length < 6) {
-    showAlert(alertEl, 'Password must be at least 6 characters.');
-    return;
+  if (newPassword) {
+    if (newPassword.length < 6) {
+      showAlert(alertEl, 'Password must be at least 6 characters.');
+      return;
+    }
   }
 
   const finalUsername = newUsername || currentUsername;

@@ -30,8 +30,8 @@ export function renderSignup() {
               id="signup-username"
               name="userName"
               autocomplete="username"
-              placeholder="max 8 chars"
-              maxlength="8"
+              placeholder="your.name"
+              maxlength="16"
               required
             >
           </div>
@@ -56,9 +56,7 @@ export function renderSignup() {
               id="signup-password"
               name="password"
               autocomplete="new-password"
-              placeholder="6 to 8 chars"
-              minlength="6"
-              maxlength="8"
+              placeholder="••••••••"
               required
             >
           </div>
@@ -71,9 +69,7 @@ export function renderSignup() {
               id="signup-confirm"
               name="confirmPassword"
               autocomplete="new-password"
-              placeholder="same again"
-              minlength="6"
-              maxlength="8"
+              placeholder="••••••••"
               required
             >
           </div>
@@ -123,8 +119,8 @@ async function handleSignup() {
     return;
   }
 
-  if (userName.length > 8) {
-    showAlert(alertEl, 'Username cannot exceed 8 characters.');
+  if (userName.length > 16) {
+    showAlert(alertEl, 'Username cannot exceed 16 characters.');
     return;
   }
 
@@ -135,8 +131,8 @@ async function handleSignup() {
     return;
   }
 
-  if (password.length < 6 || password.length > 8) {
-    showAlert(alertEl, 'Password must be between 6 and 8 characters.');
+  if (password.length < 6) {
+    showAlert(alertEl, 'Password must be at least 6 characters.');
     return;
   }
 

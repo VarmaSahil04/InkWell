@@ -33,11 +33,11 @@ export async function renderAdmin() {
             <div class="admin-panel__form">
               <div class="form-group">
                 <label class="label" for="admin-username">Username</label>
-                <input class="input" type="text" id="admin-username" placeholder="max 8 chars" maxlength="8" required>
+                <input class="input" type="text" id="admin-username" placeholder="your.name" maxlength="16" required>
               </div>
               <div class="form-group">
                 <label class="label" for="admin-password">Password</label>
-                <input class="input" type="password" id="admin-password" placeholder="6 to 8 chars" minlength="6" maxlength="8" required>
+                <input class="input" type="password" id="admin-password" placeholder="••••••••" required>
               </div>
               <button class="btn btn--primary" type="submit" id="create-admin-btn" style="margin-top:24px">
                 Create admin
@@ -197,13 +197,8 @@ async function handleCreateAdmin() {
     return;
   }
 
-  if (userName.length > 8) {
-    alertEl.innerHTML = `<div class="alert alert--error" style="margin-bottom:var(--space-4)">Username cannot exceed 8 characters.</div>`;
-    return;
-  }
-
-  if (password.length < 6 || password.length > 8) {
-    alertEl.innerHTML = `<div class="alert alert--error" style="margin-bottom:var(--space-4)">Password must be between 6 and 8 characters.</div>`;
+  if (userName.length > 16) {
+    alertEl.innerHTML = `<div class="alert alert--error" style="margin-bottom:var(--space-4)">Username cannot exceed 16 characters.</div>`;
     return;
   }
 
