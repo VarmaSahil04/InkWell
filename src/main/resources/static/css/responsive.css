@@ -61,6 +61,10 @@
     flex-direction: column;
   }
 
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
   .modal-card {
     margin: var(--space-4);
   }

@@ -203,7 +203,8 @@
 .admin-grid {
   display: grid;
   gap: var(--space-8);
-  grid-template-columns: 1fr;
+  grid-template-columns: 360px 1fr;
+  align-items: start;
 }
 
 .admin-panel {
@@ -223,14 +224,11 @@
 
 .admin-panel__form {
   display: flex;
-  gap: var(--space-3);
-  flex-wrap: wrap;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .admin-panel__form .form-group {
-  flex: 1;
-  min-width: 160px;
   margin-bottom: 0;
 }
 

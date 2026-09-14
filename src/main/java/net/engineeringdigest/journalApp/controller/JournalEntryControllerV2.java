@@ -102,7 +102,10 @@ public class JournalEntryControllerV2 {
                 JournalEntry old = journalEntry.get();
                 old.setTitle(updatedEntry.getTitle() != null && !updatedEntry.getTitle().equals("") ? updatedEntry.getTitle() : old.getTitle());
                 old.setContent(updatedEntry.getContent() != null && !updatedEntry.getContent().equals("") ? updatedEntry.getContent() : old.getContent());
-                journalEntryServices.saveEntry(old, userName);
+                // Use the single-arg saveEntry (just updates the document) so we do NOT
+                // re-append this entry to the user's journalEntries list. The 2-arg version
+                // would add the entry again → duplicate card + double-delete on removal.
+                journalEntryServices.saveEntry(old);
                 return new ResponseEntity<>(old, HttpStatus.OK);
             }
         }
