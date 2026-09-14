@@ -38,7 +38,7 @@ function entryCard(entry, index) {
   return `
     <article
       class="entry-card"
-      data-id="${entry.id}"
+      data-id="${entry.id || entry._id || entry.Id || (entry.id && typeof entry.id === 'object' ? entry.id.timestamp : '')}"
       tabindex="0"
       role="button"
       aria-label="Open entry: ${entry.title}"

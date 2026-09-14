@@ -600,3 +600,33 @@ textarea.input {
   align-items: center;
   justify-content: space-between;
 }
+
+/* ── Password Toggle ──────────────────────────────────────── */
+.password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-wrap .input {
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-3);
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.password-toggle:hover {
+  color: var(--text-primary);
+}

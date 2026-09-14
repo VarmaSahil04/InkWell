@@ -138,7 +138,7 @@ function renderDetail(entry) {
   `;
 
   document.getElementById('edit-btn').addEventListener('click', () => {
-    navigate('editor', { id: entry.id });
+    navigate('editor', { id: entry.id || entry._id || entry.Id || (entry.id && typeof entry.id === 'object' ? entry.id.timestamp : '') });
   });
 
   document.getElementById('detail-delete-btn').addEventListener('click', async () => {

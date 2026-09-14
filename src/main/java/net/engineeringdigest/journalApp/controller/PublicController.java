@@ -76,7 +76,12 @@ public class PublicController {
     }
 
     @PostMapping("/signup")
-    public void signUp(@RequestBody UserDTO user){
+    public ResponseEntity<?> signUp(@RequestBody UserDTO user){
+
+        String email = user.getEmail();
+        if (email != null && !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
+        }
 
         User newUser = new User();
         newUser.setUserName(user.getUserName());
@@ -84,6 +89,7 @@ public class PublicController {
         newUser.setPassword(user.getPassword());
         newUser.setSentimentAnalysis(user.getSentimentAnalysis() != null && (user.getSentimentAnalysis().equalsIgnoreCase("true") || user.getSentimentAnalysis().equals("1")));
         userService.saveNewUser(newUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
