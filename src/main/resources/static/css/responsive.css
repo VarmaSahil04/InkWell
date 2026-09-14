@@ -61,8 +61,13 @@
     flex-direction: column;
   }
 
+  /* Full-width on mobile — drop the 80% centering */
+  .admin-panel:first-child {
+    max-width: 100%;
+  }
+
   .admin-grid {
-    grid-template-columns: 1fr;
+    gap: var(--space-5);
   }
 
   .modal-card {

@@ -200,35 +200,48 @@
 }
 
 /* ── Admin Page ───────────────────────────────────────────── */
+
+/* Outer stack: create form on top, users table below */
 .admin-grid {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-8);
-  grid-template-columns: 360px 1fr;
-  align-items: start;
 }
 
+/* Create admin panel: centered, 80% wide on desktop */
 .admin-panel {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
+  padding: var(--space-8);
+  width: 100%;
+}
+
+/* First panel (Create admin) — centered at 80% */
+.admin-panel:first-child {
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 .admin-panel__title {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-xl);
   font-weight: 600;
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
   color: var(--text-secondary);
 }
 
+/* Inline row: username | password | button */
 .admin-panel__form {
   display: flex;
-  flex-direction: column;
   gap: var(--space-4);
+  align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .admin-panel__form .form-group {
+  flex: 1;
+  min-width: 160px;
   margin-bottom: 0;
 }
 
